@@ -10,9 +10,8 @@ def api(prompt: str):
     os.environ["http_proxy"] = "http://127.0.0.1:8889"
     os.environ["https_proxy"] = "http://127.0.0.1:8889"
     openai.api_key = os.getenv("OPENAI_API_KEY")
-    current_dir = os.path.join(os.path.dirname(
-        os.path.abspath(__file__)), "../inputs")
-    file_list = os.listdir(current_dir)
+    current_dir = os.getcwd()
+    file_list = [i for i in os.listdir(current_dir) if i[0] != '.']
     for filename in file_list:
         audio_file = open(os.path.join(current_dir, filename), "rb")
         config = {'file': audio_file,
@@ -26,8 +25,7 @@ def api(prompt: str):
 
 
 def write_to_file(segments, filename):
-    current_dir = os.path.join(os.path.dirname(
-        os.path.abspath(__file__)), "../outputs")
+    current_dir = os.getcwd()
     rett = open(os.path.join(current_dir, filename + ".txt"), "w")
     wls = []
     for t in segments:
