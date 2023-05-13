@@ -1,4 +1,5 @@
 import os
+
 import whisper
 
 
@@ -6,18 +7,16 @@ def model(model):
     if (model is None):
         model = "small"
     model = whisper.load_model(model)
-    current_dir = os.path.join(os.path.dirname(
-        os.path.abspath(__file__)), "../inputs")
-    file_list = os.listdir(current_dir)
+    current_dir = os.getcwd()
+    file_list = [i for i in os.listdir(current_dir) if (i[0] != '.' and i[-4:] != '.txt')]
     for filename in file_list:
-        result = model.transcribe(os.path.join(current_dir, filename))
+        result = model.transcribe(os.path.join(current_dir, filename), verbose=True)
         write_to_file(result.get("segments"), filename)
         print(f"Done! Located in {filename + '.txt'}")
 
 
 def write_to_file(segments, filename):
-    current_dir = os.path.join(os.path.dirname(
-        os.path.abspath(__file__)), "../outputs")
+    current_dir = os.getcwd()
     rett = open(os.path.join(current_dir, filename + ".txt"), "w")
     wls = []
     for t in segments:

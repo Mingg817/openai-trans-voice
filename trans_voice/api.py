@@ -11,7 +11,7 @@ def api(prompt: str):
     os.environ["https_proxy"] = "http://127.0.0.1:8889"
     openai.api_key = os.getenv("OPENAI_API_KEY")
     current_dir = os.getcwd()
-    file_list = [i for i in os.listdir(current_dir) if i[0] != '.']
+    file_list = [i for i in os.listdir(current_dir) if (i[0] != '.' and i[-4:] != '.txt')]
     for filename in file_list:
         audio_file = open(os.path.join(current_dir, filename), "rb")
         config = {'file': audio_file,
