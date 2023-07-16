@@ -6,7 +6,7 @@ import openai
 dotenv.load_dotenv()
 
 
-def api(prompt: str):
+def api(args):
     os.environ["http_proxy"] = "http://127.0.0.1:8889"
     os.environ["https_proxy"] = "http://127.0.0.1:8889"
     openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -17,7 +17,7 @@ def api(prompt: str):
         config = {'file': audio_file,
                   'model': "whisper-1",
                   'response_format': 'verbose_json',
-                  'prompt': prompt
+                  'prompt': args
                   }
         transcript = openai.Audio.transcribe(**config)
         write_to_file(transcript.segments, filename)
